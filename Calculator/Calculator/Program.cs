@@ -1,3 +1,5 @@
+using Calculator.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IPostix, Postix>();
+builder.Services.AddScoped<ICalculationRepository, CalculationRepository>();
 
 var app = builder.Build();
 
