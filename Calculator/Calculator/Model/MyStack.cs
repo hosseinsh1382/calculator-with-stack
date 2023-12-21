@@ -2,11 +2,7 @@
 
 public class MyStack<T>
 {
-    public MyStack(MyLinkedList<T> elements)
-    {
-        Elements = elements;
-    }
-    public MyLinkedList<T> Elements { get; }
+    public MyLinkedList<T> Elements { get; } = new();
     public int Size { get; set; }
 
     public void Push(T data)
@@ -29,7 +25,7 @@ public class MyStack<T>
 
 public class MyLinkedList<T>
 {
-    public Node<T> Head { get; private set; } 
+    public Node<T> Head { get; private set; } = new();
     public int Size { get; private set; }
 
     public void AddFirst(T data)

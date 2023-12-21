@@ -1,3 +1,4 @@
+using Calculator.Model;
 using Calculator.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IPostix, Postix>();
+builder.Services.AddScoped<IPostfix, Postfix>();
 builder.Services.AddScoped<ICalculationRepository, CalculationRepository>();
 
 var app = builder.Build();

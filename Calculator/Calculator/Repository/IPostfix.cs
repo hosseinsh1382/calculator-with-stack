@@ -1,6 +1,6 @@
 ﻿namespace Calculator.Repository;
 
-public interface IPostix
+public interface IPostfix
 {
     string ConvertToPostfix(string infix);
 }

@@ -3,8 +3,11 @@ using Calculator.Model;
 
 namespace Calculator.Repository;
 
-public class Postix(MyStack<char> operators, MyStack<char> tempOperators) : IPostix
+public class Postfix : IPostfix
 {
+    public MyStack<char> TempOperators { get; } = new();
+    public MyStack<char> Operators { get; } = new();
+
     public string ConvertToPostfix(string infix)
     {
         var postfix = "";
@@ -15,34 +18,48 @@ public class Postix(MyStack<char> operators, MyStack<char> tempOperators) : IPos
             {
                 case '(':
                     postfix = postfix + tempNumber + " ";
-                    operators.Push(i);
+                    Operators.Push(i);
                     break;
                 case ')':
                     postfix += tempNumber + " ";
                     tempNumber = "";
-                    while (operators.Size > 0 && operators.Peek() != "(")
-                        postfix = postfix + operators.Pop() + " ";
-                    if ((operators.Size > 0 && operators.Peek() != "(") || operators.Size == 0)
+                    while (Operators.Size > 0 && Operators.Peek() != "(")
+                        postfix = postfix + " " + Operators.Pop();
+                    if ((Operators.Size > 0 && Operators.Peek() != "(") || Operators.Size == 0)
                         throw new InvalidExpressionException();
+                    Operators.Pop();
+                    break;
+                case 'p':
+                    postfix += tempNumber + " ";
+                    tempNumber = "";
+                    postfix += 3.14;
+                    break;
+                case 'e':
+                    postfix += 2.71;
                     break;
                 case '+':
-                case '-':
                 case '*':
                 case '/':
                 case '^':
                 case '!':
                     postfix += tempNumber + " ";
                     tempNumber = "";
-                    while (Priority(Convert.ToChar(operators.Peek())) > Priority(i))
-                        tempOperators.Push(Convert.ToChar(operators.Pop()));
-                    operators.Push(i);
-                    while (tempOperators.Size > 0)
-                        operators.Push(Convert.ToChar(tempOperators.Pop()));
+                    while (Priority(Convert.ToChar(Operators.Peek())) > Priority(i))
+                        TempOperators.Push(Convert.ToChar(Operators.Pop()));
+                    Operators.Push(i);
+                    while (TempOperators.Size > 0)
+                        Operators.Push(Convert.ToChar(TempOperators.Pop()));
                     break;
                 default:
                     tempNumber += i;
                     break;
             }
+        }
+
+        postfix += tempNumber + " ";
+        while (Operators.Size > 0)
+        {
+            postfix += " " + Operators.Pop();
         }
 
         return postfix;

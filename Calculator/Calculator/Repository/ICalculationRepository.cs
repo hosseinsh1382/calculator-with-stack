@@ -8,4 +8,6 @@ public interface ICalculationRepository
     double Divide(double number1, double number2);
     double Power(double number1, int number2);
     int Factorial(int number);
+
+    double Calculate(string infix);
 }
